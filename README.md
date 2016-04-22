@@ -48,7 +48,7 @@ Extract the following fields:
 - [x] Filing Date
 - [x] US Class*+
 - [x] CPC Class*+
-- [ ] Int'l Class*+
+- [x] Int'l Class*+
 - [ ] Field of search
 - [ ] References Cited*+
 - [ ] Primary Examiner

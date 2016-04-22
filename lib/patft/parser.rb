@@ -14,7 +14,8 @@ module Patft
       issue_date: "//table[@width='100%'][2]/tr[2]/td[@align='right']/b[1]/text()",
       filing_date: '//th[contains(text(), "Filed:")]/../td/b/text()',
       us_classifications: '//td/b[contains(text(), "Current U.S. Class:")]/../../td[@align="right"]',
-      cpc_classifications: '//td/b[contains(text(), "Current CPC Class:")]/../../td[@align="right"]'
+      cpc_classifications: '//td/b[contains(text(), "Current CPC Class:")]/../../td[@align="right"]',
+      international_classifications: '//td/b[contains(text(), "Current International Class:")]/../../td[@align="right"]'
     }
     def self.parse(html)
       html = Nokogiri::HTML(html)
@@ -27,6 +28,7 @@ module Patft
         abstract:  extract(:abstract, html),
         assignee:  extract(:assignee, html),
         us_classifications:  extract(:us_classifications, html),
+        international_classifications:  extract(:international_classifications, html),
         cpc_classifications:  extract(:cpc_classifications, html),
         serial:  extract(:serial, html),
         family_id:  extract(:family_id, html)
@@ -60,6 +62,11 @@ module Patft
           .split('; ')
       elsif key == :cpc_classifications
         extracted = html.xpath(XPATH[:cpc_classifications]).text
+          .gsub(/^\s*|\s*$/, '')
+          .split('; ')
+          .collect { |c| c.gsub('&nbsp', ' ')}
+      elsif key == :international_classifications
+        extracted = html.xpath(XPATH[:international_classifications]).text
           .gsub(/^\s*|\s*$/, '')
           .split('; ')
           .collect { |c| c.gsub('&nbsp', ' ')}
