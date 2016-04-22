@@ -47,7 +47,7 @@ Extract the following fields:
 - [x] Serial Number
 - [x] Filing Date
 - [x] US Class*+
-- [ ] CPC Class*+
+- [x] CPC Class*+
 - [ ] Int'l Class*+
 - [ ] Field of search
 - [ ] References Cited*+

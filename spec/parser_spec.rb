@@ -72,9 +72,14 @@ describe Parser do
       expect(parsed[:us_classifications]).to be_an(Array)
       expect(parsed[:us_classifications]).to eq(%w(707/610 707/758 707/822 707/922 707/999.201 714/E11.128 714/E11.129))
     end
-    # it 'extracts an CPC Class'
-    # it 'extracts an International Class'
-    # it 'extracts an Field of search'
+
+    it 'extracts CPC classes' do
+      expect(parsed).to have_key(:cpc_classifications)
+      expect(parsed[:cpc_classifications]).to be_an(Array)
+      expect(parsed[:cpc_classifications]).to eq(["G06F 17/30286 (20130101)", "G06F 17/30575 (20130101)", "Y10S 707/922 (20130101)", "Y10S 707/99952 (20130101)"])
+    end
+    it 'extracts International Classes'
+    it 'extracts a Field of search'
     # it 'extracts an References Cited'
     # it 'extracts an Primary Examiner'
     # it 'extracts an Attorney/Agent'
