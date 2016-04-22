@@ -39,7 +39,7 @@ Extract the following fields:
 
 - [x] Number
 - [x] Title
-- [ ] Issue Date
+- [x] Issue Date
 - [ ] Abstract
 - [ ] Inventors*+
 - [ ] Assignee*
