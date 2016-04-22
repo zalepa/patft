@@ -67,8 +67,11 @@ describe Parser do
       expect(parsed[:serial]).to eq('09/072,274')
     end
 
-    # it 'extracts an Related Patents'
-    # it 'extracts an US Class'
+    it 'extracts US Classifications' do
+      expect(parsed).to have_key(:us_classifications)
+      expect(parsed[:us_classifications]).to be_an(Array)
+      expect(parsed[:us_classifications]).to eq(%w(707/610 707/758 707/822 707/922 707/999.201 714/E11.128 714/E11.129))
+    end
     # it 'extracts an CPC Class'
     # it 'extracts an International Class'
     # it 'extracts an Field of search'
@@ -78,5 +81,6 @@ describe Parser do
     # it 'extracts an Parent Case Text'
     # it 'extracts an Claims'
     # it 'extracts an Description'
+    # it 'extracts an Related Patents'
   end
 end

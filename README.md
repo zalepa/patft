@@ -46,8 +46,7 @@ Extract the following fields:
 - [x] Family ID
 - [x] Serial Number
 - [x] Filing Date
-- [ ] Related Patents*+
-- [ ] US Class*+
+- [x] US Class*+
 - [ ] CPC Class*+
 - [ ] Int'l Class*+
 - [ ] Field of search
@@ -57,6 +56,7 @@ Extract the following fields:
 - [ ] Parent Case Text
 - [ ] Claims*+
 - [ ] Description (paragraphs)+
+- [ ] Related Patents*+
 
 
 Format notes:

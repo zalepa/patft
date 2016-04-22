@@ -12,7 +12,8 @@ module Patft
       serial: '//th[contains(text(), "Appl. No.:")]/../td/b/text()',
       family_id: '//th[contains(text(), "Family ID:")]/../td/b/text()',
       issue_date: "//table[@width='100%'][2]/tr[2]/td[@align='right']/b[1]/text()",
-      filing_date: '//th[contains(text(), "Filed:")]/../td/b/text()'
+      filing_date: '//th[contains(text(), "Filed:")]/../td/b/text()',
+      us_classifications: '//td/b[contains(text(), "Current U.S. Class:")]/../../td[@align="right"]'
     }
     def self.parse(html)
       html = Nokogiri::HTML(html)
@@ -24,6 +25,7 @@ module Patft
         inventors:  extract(:inventors, html),
         abstract:  extract(:abstract, html),
         assignee:  extract(:assignee, html),
+        us_classifications:  extract(:us_classifications, html),
         serial:  extract(:serial, html),
         family_id:  extract(:family_id, html)
       }
@@ -50,6 +52,10 @@ module Patft
         extracted = html.xpath(XPATH[:family_id]).text.delete("\n").gsub(/\s{2,}/, ' ')
       elsif key == :serial
         extracted = html.xpath(XPATH[:serial]).text.delete("\n").gsub(/^\s/, '')
+      elsif key == :us_classifications
+        extracted = html.xpath(XPATH[:us_classifications]).text
+          .gsub(/^\s*|\s*$/, '')
+          .split('; ')
       elsif key == :assignee
         extracted = html.xpath(XPATH[:assignee]).text
                         .delete("\n")
