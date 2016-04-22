@@ -1,0 +1,19 @@
+number: '6000000'
+title: 'Extendible method and apparatus for synchronizing multiple files on two different computer systems'
+issue_date: 'December 7, 1999'
+abstract: 'Many users of handheld computer systems maintain databases on the handheld computer systems. To share the information, it is desirable to have a simple method of sharing the information with personal computer systems. An easy to use extendible file synchronization system is introduced for sharing information between a handheld computer system and a personal computer system. The synchronization system is activated by a single button press. The synchronization system proceeds to synchronize data for several different applications that run on the handheld computer system and the personal computer system. If the user gets a new application for the handheld computer system and the personal computer system, then a new library of code is added for synchronizing the databases associate with the new application. The synchronization system automatically recognizes the new library of code and uses it during the next synchronization.'
+inventors:
+  - name: Hawkins; Jeffrey C.
+    residence: Redwood City, CA
+  - name: Albanese; Michael
+    residence: Los Gatos, CA
+filing_date: May 4, 1998
+assignee:
+  name: 3Com Corporation
+  location: Santa Clara, CA
+family_id: '24162163'
+serial: '09/072,274'
+us_classifications: ["707/610", "707/758", "707/822", "707/922", "707/999.201", "714/E11.128", "714/E11.129"]
+cpc_classifications: ["G06F 17/30286 (20130101)", "G06F 17/30575 (20130101)", "Y10S 707/922 (20130101)", "Y10S 707/99952 (20130101)"]
+international_classifications: ["G06F 11/14 (20060101)", "G06F 017/30 ()"]
+field_of_search: ['707/201']

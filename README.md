@@ -51,6 +51,7 @@ Extract the following fields:
 - [x] Int'l Class*+
 - [x] Field of search
 - [ ] Primary Examiner
+- [ ] Assistant Examiner
 - [ ] Attorney/Agent
 - [ ] Parent Case Text
 - [ ] Claims*+
@@ -67,6 +68,7 @@ Format notes:
 ## Medium Term
 
 - [ ] CLI
+- [ ] Increase field support based on red book (e.g., PCT data)
 
 ## Long Term (rough ideas)
 
