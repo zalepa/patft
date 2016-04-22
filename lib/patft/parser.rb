@@ -3,16 +3,15 @@ require 'nokogiri'
 
 module Patft
   module Parser
-    # TODO: redo table selectors like Family ID
     XPATH = {
       number: "//table[@width='100%'][2]/tr[1]/td[@align='right']/b/text()[1]",
       title: '//body/font[1]/text()',
       abstract: '/html/body/p[1]/text()',
-      inventors: '/html/body/table[3]/tr[1]/td',
-      assignee: '/html/body/table[3]/tr[2]/td',
+      inventors: '//th[contains(text(), "Inventors:")]/../td',
+      assignee: '//th[contains(text(), "Assignee:")]/../td',
       family_id: '//th[contains(text(), "Family ID:")]/../td/b/text()',
       issue_date: "//table[@width='100%'][2]/tr[2]/td[@align='right']/b[1]/text()",
-      filing_date: "/html/body/table[3]/tr[5]/td/b/text()"
+      filing_date: '//th[contains(text(), "Filed:")]/../td/b/text()'
     }
     def self.parse(html)
       html = Nokogiri::HTML(html)
