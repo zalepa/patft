@@ -7,6 +7,7 @@ module Patft
       number: "//table[@width='100%'][2]/tr[1]/td[@align='right']/b/text()[1]",
       title: '//body/font[1]/text()',
       abstract: '/html/body/p[1]/text()',
+      inventors: '/html/body/table[3]/tr[1]/td',
       issue_date: "//table[@width='100%'][2]/tr[2]/td[@align='right']/b[1]/text()"
     }
 
@@ -16,6 +17,7 @@ module Patft
         number: extract(:number, html),
         title:  extract(:title, html),
         issue_date:  extract(:issue_date, html),
+        inventors:  extract(:inventors, html),
         abstract:  extract(:abstract, html)
       }
     end
@@ -34,6 +36,25 @@ module Patft
         extracted = Date.parse(raw_date)
       elsif key == :abstract
         extracted = html.xpath(XPATH[:abstract]).text.delete("\n").gsub(/\s{2,}/, ' ')
+      elsif key == :inventors
+        raw_inventors = html.xpath(XPATH[:inventors]).inner_html
+
+        # Hold on to your butts...
+        raw_inventors = raw_inventors
+                        .delete("\n")
+                        .gsub(/\s{2,}/, ' ')
+                        .gsub(/^\s*|\s*$/, '')
+                        .gsub(/<b>/, '')
+                        .split('),')
+                        .collect do |i|
+                          i = i.split(%r{<\/b>\s*})
+                          {
+                            name: i[0],
+                            residence: i[1].gsub(/^\(/, '')
+                          }
+                        end
+
+        extracted = raw_inventors
       end
       extracted
     end

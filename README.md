@@ -41,7 +41,7 @@ Extract the following fields:
 - [x] Title
 - [x] Issue Date
 - [x] Abstract
-- [ ] Inventors*+
+- [x] Inventors*+
 - [ ] Assignee*
 - [ ] Family ID
 - [ ] Serial Number

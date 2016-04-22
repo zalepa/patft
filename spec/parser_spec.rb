@@ -30,7 +30,16 @@ describe Parser do
       expect(parsed[:abstract]).to be_a(String)
       expect(parsed[:abstract]).to eq('Many users of handheld computer systems maintain databases on the handheld computer systems. To share the information, it is desirable to have a simple method of sharing the information with personal computer systems. An easy to use extendible file synchronization system is introduced for sharing information between a handheld computer system and a personal computer system. The synchronization system is activated by a single button press. The synchronization system proceeds to synchronize data for several different applications that run on the handheld computer system and the personal computer system. If the user gets a new application for the handheld computer system and the personal computer system, then a new library of code is added for synchronizing the databases associate with the new application. The synchronization system automatically recognizes the new library of code and uses it during the next synchronization.')
     end
-    # it 'extracts an Inventors'
+
+    # TODO: serious clean up
+    it 'extracts an inventors' do
+      expect(parsed).to have_key(:inventors)
+      expect(parsed[:inventors]).to be_an(Array)
+      expect(parsed[:inventors].length).to eq(2)
+      expect(parsed[:inventors][0]).to have_key(:name)
+      expect(parsed[:inventors][0]).to have_key(:residence)
+    end
+    
     # it 'extracts an Filing Date'
     # it 'extracts an Assignee*'
     # it 'extracts an Family ID'
