@@ -49,14 +49,14 @@ Extract the following fields:
 - [x] US Class*+
 - [x] CPC Class*+
 - [x] Int'l Class*+
-- [ ] Field of search
-- [ ] References Cited*+
+- [x] Field of search
 - [ ] Primary Examiner
 - [ ] Attorney/Agent
 - [ ] Parent Case Text
 - [ ] Claims*+
 - [ ] Description (paragraphs)+
 - [ ] Related Patents*+
+- [ ] References Cited*+
 
 
 Format notes:

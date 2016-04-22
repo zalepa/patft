@@ -84,7 +84,11 @@ describe Parser do
       expect(parsed[:international_classifications]).to be_an(Array)
       expect(parsed[:international_classifications]).to eq(["G06F 11/14 (20060101)", "G06F 017/30 ()"])
     end
-    it 'extracts a Field of search'
+    it 'extracts a Field of search' do
+      expect(parsed).to have_key(:field_of_search)
+      expect(parsed[:field_of_search]).to be_an(Array)
+      expect(parsed[:field_of_search]).to eq(['707/201'])
+    end
     # it 'extracts an References Cited'
     # it 'extracts an Primary Examiner'
     # it 'extracts an Attorney/Agent'
