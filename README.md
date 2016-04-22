@@ -1,41 +1,79 @@
-# Patft
+# PATFT: A USPTO PATFT Parsing Library
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/patft`. To experiment with that code, run `bin/console` for an interactive prompt.
+PATFT is a simple gem to extract relevant data from raw HTML provided by the
+USPTO at http://patft.uspto.gov/. PATFT uses Nokogiri and XPath to scan HTML
+files provided to it and returns a structure (e.g., Hash/JSON) representation
+of the patent document.
 
-TODO: Delete this and the text above, and describe your gem
+**WARNING**: PATFT is under active development, refer to the roadmap below (and
+the specs) to see what is and is not implemented.
 
-## Installation
+# Usage
 
-Add this line to your application's Gemfile:
+``` ruby
+require 'patft'
 
-```ruby
-gem 'patft'
+local_html = File.read('patent.html')
+patents = Parser.parse(local_html) # => { number: '1234567', title: '...', ... }
 ```
 
-And then execute:
+Note that PATFT::Parser#parse requires a String representation of the HTML, how
+you get that is up to you. This was intentional given the USPTO's policy on
+scraping (and generally to encourage being responsible).
 
-    $ bundle
+# Output Format
+Below are the keys output by `Parser#parse`:
 
-Or install it yourself as:
+## number
+A `String` containing the patent number, without kind code. Note that this field
+ may contain non-numeric characters for design, re-issue, etc. patents.
 
-    $ gem install patft
+## title
+A `String` containing the title.
 
-## Usage
+# Roadmap
 
-TODO: Write usage instructions here
+## Short Term
 
-## Development
+Extract the following fields:
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+- [x] Number
+- [x] Title
+- [ ] Issue Date
+- [ ] Abstract
+- [ ] Inventors*+
+- [ ] Assignee*
+- [ ] Family ID
+- [ ] Serial Number
+- [ ] Filing Date
+- [ ] Related Patents*+
+- [ ] US Class*+
+- [ ] CPC Class*+
+- [ ] Int'l Class*+
+- [ ] Field of search
+- [ ] References Cited*+
+- [ ] Primary Examiner
+- [ ] Attorney/Agent
+- [ ] Parent Case Text
+- [ ] Claims*+
+- [ ] Description (paragraphs)+
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
-## Contributing
+Format notes:
+* Asterisks denote structured data.
+* Plusses denote arrays of data
+* Asterisks and plusses are arrays of structured data
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/patft.
+## Medium Term
 
+- [ ] CLI
+
+## Long Term (rough ideas)
+
+- [ ] Remote search interface
+- [ ] Query tool ("Advanced Search")
+- [ ] AppFT (probably a different gem)
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
