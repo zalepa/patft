@@ -54,7 +54,13 @@ describe Parser do
       expect(parsed[:assignee][:name]).to eq('3Com Corporation')
       expect(parsed[:assignee][:location]).to eq('Santa Clara, CA')
     end
-    # it 'extracts an Family ID'
+
+    it 'extracts an family ID' do
+      expect(parsed).to have_key(:family_id)
+      expect(parsed[:family_id]).to be_a(String)
+      expect(parsed[:family_id]).to eq('24162163')
+    end
+    
     # it 'extracts an Serial Number'
     # it 'extracts an Related Patents'
     # it 'extracts an US Class'

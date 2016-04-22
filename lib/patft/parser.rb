@@ -3,16 +3,17 @@ require 'nokogiri'
 
 module Patft
   module Parser
+    # TODO: redo table selectors like Family ID
     XPATH = {
       number: "//table[@width='100%'][2]/tr[1]/td[@align='right']/b/text()[1]",
       title: '//body/font[1]/text()',
       abstract: '/html/body/p[1]/text()',
       inventors: '/html/body/table[3]/tr[1]/td',
       assignee: '/html/body/table[3]/tr[2]/td',
+      family_id: '//th[contains(text(), "Family ID:")]/../td/b/text()',
       issue_date: "//table[@width='100%'][2]/tr[2]/td[@align='right']/b[1]/text()",
       filing_date: "/html/body/table[3]/tr[5]/td/b/text()"
     }
-
     def self.parse(html)
       html = Nokogiri::HTML(html)
       parsed = {
@@ -22,7 +23,8 @@ module Patft
         filing_date:  extract(:filing_date, html),
         inventors:  extract(:inventors, html),
         abstract:  extract(:abstract, html),
-        assignee:  extract(:assignee, html)
+        assignee:  extract(:assignee, html),
+        family_id:  extract(:family_id, html)
       }
     end
 
@@ -43,6 +45,8 @@ module Patft
         extracted = Date.parse(raw_date)
       elsif key == :abstract
         extracted = html.xpath(XPATH[:abstract]).text.delete("\n").gsub(/\s{2,}/, ' ')
+      elsif key == :family_id
+        extracted = html.xpath(XPATH[:family_id]).text.delete("\n").gsub(/\s{2,}/, ' ')
       elsif key == :assignee
         extracted = html.xpath(XPATH[:assignee]).text
                         .delete("\n")
