@@ -6,6 +6,7 @@ module Patft
     XPATH = {
       number: "//table[@width='100%'][2]/tr[1]/td[@align='right']/b/text()[1]",
       title: '//body/font[1]/text()',
+      abstract: '/html/body/p[1]/text()',
       issue_date: "//table[@width='100%'][2]/tr[2]/td[@align='right']/b[1]/text()"
     }
 
@@ -14,7 +15,8 @@ module Patft
       parsed = {
         number: extract(:number, html),
         title:  extract(:title, html),
-        issue_date:  extract(:issue_date, html)
+        issue_date:  extract(:issue_date, html),
+        abstract:  extract(:abstract, html)
       }
     end
 
@@ -30,6 +32,8 @@ module Patft
       elsif key == :issue_date
         raw_date = html.xpath(XPATH[:issue_date]).text.gsub(/\n|\s{2,}/, '')
         extracted = Date.parse(raw_date)
+      elsif key == :abstract
+        extracted = html.xpath(XPATH[:abstract]).text.delete("\n").gsub(/\s{2,}/, ' ')
       end
       extracted
     end
