@@ -8,6 +8,7 @@ module Patft
       title: '//body/font[1]/text()',
       abstract: '/html/body/p[1]/text()',
       inventors: '/html/body/table[3]/tr[1]/td',
+      assignee: '/html/body/table[3]/tr[2]/td',
       issue_date: "//table[@width='100%'][2]/tr[2]/td[@align='right']/b[1]/text()",
       filing_date: "/html/body/table[3]/tr[5]/td/b/text()"
     }
@@ -20,7 +21,8 @@ module Patft
         issue_date:  extract(:issue_date, html),
         filing_date:  extract(:filing_date, html),
         inventors:  extract(:inventors, html),
-        abstract:  extract(:abstract, html)
+        abstract:  extract(:abstract, html),
+        assignee:  extract(:assignee, html)
       }
     end
 
@@ -41,6 +43,16 @@ module Patft
         extracted = Date.parse(raw_date)
       elsif key == :abstract
         extracted = html.xpath(XPATH[:abstract]).text.delete("\n").gsub(/\s{2,}/, ' ')
+      elsif key == :assignee
+        extracted = html.xpath(XPATH[:assignee]).text
+                        .delete("\n")
+                        .split(/\s\(/)
+                        .collect { |a| a.gsub(/\)$/, '') }
+        extracted = {
+          name: extracted[0],
+          location: extracted[1]
+        }
+
       elsif key == :inventors
         raw_inventors = html.xpath(XPATH[:inventors]).inner_html
 

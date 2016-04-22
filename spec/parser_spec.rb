@@ -45,7 +45,15 @@ describe Parser do
       expect(parsed[:filing_date]).to be_a(Date)
       expect(parsed[:filing_date]).to eq(Date.parse('May 4, 1998'))
     end
-    # it 'extracts an Assignee*'
+
+    it 'extracts an assignee' do
+      expect(parsed).to have_key(:assignee)
+      expect(parsed[:assignee]).to be_a(Hash)
+      expect(parsed[:assignee]).to have_key(:name)
+      expect(parsed[:assignee]).to have_key(:location)
+      expect(parsed[:assignee][:name]).to eq('3Com Corporation')
+      expect(parsed[:assignee][:location]).to eq('Santa Clara, CA')
+    end
     # it 'extracts an Family ID'
     # it 'extracts an Serial Number'
     # it 'extracts an Related Patents'

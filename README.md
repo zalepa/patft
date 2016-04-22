@@ -42,7 +42,7 @@ Extract the following fields:
 - [x] Issue Date
 - [x] Abstract
 - [x] Inventors*+
-- [ ] Assignee*
+- [x] Assignee*
 - [ ] Family ID
 - [ ] Serial Number
 - [x] Filing Date
