@@ -9,6 +9,7 @@ module Patft
       abstract: '/html/body/p[1]/text()',
       inventors: '//th[contains(text(), "Inventors:")]/../td',
       assignee: '//th[contains(text(), "Assignee:")]/../td',
+      serial: '//th[contains(text(), "Appl. No.:")]/../td/b/text()',
       family_id: '//th[contains(text(), "Family ID:")]/../td/b/text()',
       issue_date: "//table[@width='100%'][2]/tr[2]/td[@align='right']/b[1]/text()",
       filing_date: '//th[contains(text(), "Filed:")]/../td/b/text()'
@@ -23,6 +24,7 @@ module Patft
         inventors:  extract(:inventors, html),
         abstract:  extract(:abstract, html),
         assignee:  extract(:assignee, html),
+        serial:  extract(:serial, html),
         family_id:  extract(:family_id, html)
       }
     end
@@ -46,6 +48,8 @@ module Patft
         extracted = html.xpath(XPATH[:abstract]).text.delete("\n").gsub(/\s{2,}/, ' ')
       elsif key == :family_id
         extracted = html.xpath(XPATH[:family_id]).text.delete("\n").gsub(/\s{2,}/, ' ')
+      elsif key == :serial
+        extracted = html.xpath(XPATH[:serial]).text.delete("\n").gsub(/^\s/, '')
       elsif key == :assignee
         extracted = html.xpath(XPATH[:assignee]).text
                         .delete("\n")

@@ -32,7 +32,7 @@ describe Parser do
     end
 
     # TODO: serious clean up
-    it 'extracts an inventors' do
+    it 'extracts inventors' do
       expect(parsed).to have_key(:inventors)
       expect(parsed[:inventors]).to be_an(Array)
       expect(parsed[:inventors].length).to eq(2)
@@ -40,7 +40,7 @@ describe Parser do
       expect(parsed[:inventors][0]).to have_key(:residence)
     end
 
-    it 'extracts an filing Date' do
+    it 'extracts a filing date' do
       expect(parsed).to have_key(:filing_date)
       expect(parsed[:filing_date]).to be_a(Date)
       expect(parsed[:filing_date]).to eq(Date.parse('May 4, 1998'))
@@ -55,13 +55,18 @@ describe Parser do
       expect(parsed[:assignee][:location]).to eq('Santa Clara, CA')
     end
 
-    it 'extracts an family ID' do
+    it 'extracts a family ID' do
       expect(parsed).to have_key(:family_id)
       expect(parsed[:family_id]).to be_a(String)
       expect(parsed[:family_id]).to eq('24162163')
     end
-    
-    # it 'extracts an Serial Number'
+
+    it 'extracts a serial number' do
+      expect(parsed).to have_key(:serial)
+      expect(parsed[:serial]).to be_a(String)
+      expect(parsed[:serial]).to eq('09/072,274')
+    end
+
     # it 'extracts an Related Patents'
     # it 'extracts an US Class'
     # it 'extracts an CPC Class'

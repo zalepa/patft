@@ -44,7 +44,7 @@ Extract the following fields:
 - [x] Inventors*+
 - [x] Assignee*
 - [x] Family ID
-- [ ] Serial Number
+- [x] Serial Number
 - [x] Filing Date
 - [ ] Related Patents*+
 - [ ] US Class*+
