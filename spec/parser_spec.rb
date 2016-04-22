@@ -39,8 +39,12 @@ describe Parser do
       expect(parsed[:inventors][0]).to have_key(:name)
       expect(parsed[:inventors][0]).to have_key(:residence)
     end
-    
-    # it 'extracts an Filing Date'
+
+    it 'extracts an filing Date' do
+      expect(parsed).to have_key(:filing_date)
+      expect(parsed[:filing_date]).to be_a(Date)
+      expect(parsed[:filing_date]).to eq(Date.parse('May 4, 1998'))
+    end
     # it 'extracts an Assignee*'
     # it 'extracts an Family ID'
     # it 'extracts an Serial Number'

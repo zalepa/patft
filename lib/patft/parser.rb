@@ -8,7 +8,8 @@ module Patft
       title: '//body/font[1]/text()',
       abstract: '/html/body/p[1]/text()',
       inventors: '/html/body/table[3]/tr[1]/td',
-      issue_date: "//table[@width='100%'][2]/tr[2]/td[@align='right']/b[1]/text()"
+      issue_date: "//table[@width='100%'][2]/tr[2]/td[@align='right']/b[1]/text()",
+      filing_date: "/html/body/table[3]/tr[5]/td/b/text()"
     }
 
     def self.parse(html)
@@ -17,6 +18,7 @@ module Patft
         number: extract(:number, html),
         title:  extract(:title, html),
         issue_date:  extract(:issue_date, html),
+        filing_date:  extract(:filing_date, html),
         inventors:  extract(:inventors, html),
         abstract:  extract(:abstract, html)
       }
@@ -33,6 +35,9 @@ module Patft
         extracted = html.xpath(XPATH[:title]).text.gsub(/^\s|\s$/, '').gsub(/\s{2,}/, ' ')
       elsif key == :issue_date
         raw_date = html.xpath(XPATH[:issue_date]).text.gsub(/\n|\s{2,}/, '')
+        extracted = Date.parse(raw_date)
+      elsif key == :filing_date
+        raw_date = html.xpath(XPATH[:filing_date]).text.gsub(/\n|\s{2,}/, '')
         extracted = Date.parse(raw_date)
       elsif key == :abstract
         extracted = html.xpath(XPATH[:abstract]).text.delete("\n").gsub(/\s{2,}/, ' ')

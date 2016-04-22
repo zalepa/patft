@@ -45,7 +45,7 @@ Extract the following fields:
 - [ ] Assignee*
 - [ ] Family ID
 - [ ] Serial Number
-- [ ] Filing Date
+- [x] Filing Date
 - [ ] Related Patents*+
 - [ ] US Class*+
 - [ ] CPC Class*+
