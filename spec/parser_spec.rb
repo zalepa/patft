@@ -93,7 +93,12 @@ describe Parser do
       expect(parsed[:field_of_search]).to eq(expected['field_of_search'])
     end
 
-    # it 'extracts an Primary Examiner'
+    it 'extracts a primary examiner' do
+      expect(parsed).to have_key(:primary_examiner)
+      expect(parsed[:primary_examiner]).to be_a(String)
+      expect(parsed[:primary_examiner]).to eq(expected['primary_examiner'])
+    end
+    
     # it 'extracts an Attorney/Agent'
     # it 'extracts an Parent Case Text'
     # it 'extracts an Claims'

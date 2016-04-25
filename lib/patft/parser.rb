@@ -16,8 +16,10 @@ module Patft
       us_classifications: '//td/b[contains(text(), "Current U.S. Class:")]/../../td[@align="right"]',
       cpc_classifications: '//td/b[contains(text(), "Current CPC Class:")]/../../td[@align="right"]',
       international_classifications: '//td/b[contains(text(), "Current International Class:")]/../../td[@align="right"]',
-      field_of_search: '//td/b[contains(text(), "Field of Search:")]/../../td[@align="right"]'
+      field_of_search: '//td/b[contains(text(), "Field of Search:")]/../../td[@align="right"]',
+      primary_examiner: '/html/body/text()'
     }
+
     def self.parse(html)
       html = Nokogiri::HTML(html)
       parsed = {
@@ -33,7 +35,8 @@ module Patft
         cpc_classifications:  extract(:cpc_classifications, html),
         field_of_search:  extract(:field_of_search, html),
         serial:  extract(:serial, html),
-        family_id:  extract(:family_id, html)
+        family_id:  extract(:family_id, html),
+        primary_examiner:  extract(:primary_examiner, html)
       }
     end
 
@@ -58,6 +61,8 @@ module Patft
         extracted = html.xpath(XPATH[:family_id]).text.delete("\n").gsub(/\s{2,}/, ' ')
       elsif key == :serial
         extracted = html.xpath(XPATH[:serial]).text.delete("\n").gsub(/^\s/, '')
+      elsif key == :primary_examiner
+        extracted = html.xpath(XPATH[:primary_examiner]).text.delete("\n").gsub(/^\s*|\s*$/, '')
       elsif key == :us_classifications
         extracted = html.xpath(XPATH[:us_classifications]).text
           .gsub(/^\s*|\s*$/, '')

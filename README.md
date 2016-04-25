@@ -50,7 +50,7 @@ Extract the following fields:
 - [x] CPC Class*+
 - [x] Int'l Class*+
 - [x] Field of search
-- [ ] Primary Examiner
+- [x] Primary Examiner
 - [ ] Assistant Examiner
 - [ ] Attorney/Agent
 - [ ] Parent Case Text
