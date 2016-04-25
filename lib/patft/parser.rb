@@ -28,93 +28,96 @@ module Patft
   end
 
   # Documentation: TODO
-  module Parser
+  class Parser
     String.include StringExtensions
 
-    def self.parse(html)
-      html = Nokogiri::HTML(html)
-      fields = {}
+    def initialize(html)
+      @html = Nokogiri::HTML(html)
+    end
+
+    def to_hash
+      hash = {}
       %w(number title issue_date filing_date inventors abstract assignee
          us_classifications international_classifications cpc_classifications
          field_of_search serial family_id primary_examiner
-      ).each { |f| fields[f.to_sym] = extract(f.to_sym, html) }
-      fields
+      ).each { |f| hash[f.to_sym] = send(f.to_sym) }
+      hash
     end
 
-    def self.extract_number(html)
-      html.xpath(XPATHS[:number]).text.delete(',')
+    def number
+      @html.xpath(XPATHS[:number]).text.delete(',')
     end
 
-    def self.extract_title(html)
-      html.xpath(XPATHS[:title]).text.scrub_html
+    def title
+      @html.xpath(XPATHS[:title]).text.scrub_html
     end
 
-    def self.extract_issue_date(html)
-      raw_date = html.xpath(XPATHS[:issue_date]).text.scrub_html
+    def issue_date
+      raw_date = @html.xpath(XPATHS[:issue_date]).text.scrub_html
       Date.parse(raw_date)
     end
 
-    def self.extract_filing_date(html)
-      raw_date = html.xpath(XPATHS[:filing_date]).text.scrub_html
+    def filing_date
+      raw_date = @html.xpath(XPATHS[:filing_date]).text.scrub_html
       Date.parse(raw_date)
     end
 
-    def self.extract_abstract(html)
-      html.xpath(XPATHS[:abstract]).text.scrub_html
+    def abstract
+      @html.xpath(XPATHS[:abstract]).text.scrub_html
     end
 
-    def self.extract_family_id(html)
-      html.xpath(XPATHS[:family_id]).text.scrub_html
+    def family_id
+      @html.xpath(XPATHS[:family_id]).text.scrub_html
     end
 
-    def self.extract_serial(html)
-      html.xpath(XPATHS[:serial]).text.scrub_html
+    def serial
+      @html.xpath(XPATHS[:serial]).text.scrub_html
     end
 
-    def self.extract_primary_examiner(html)
-      html.xpath(XPATHS[:primary_examiner]).text.scrub_html
+    def primary_examiner
+      @html.xpath(XPATHS[:primary_examiner]).text.scrub_html
     end
 
-    def self.extract_us_classifications(html)
-      html.xpath(XPATHS[:us_classifications]).text
-          .scrub_html
-          .split('; ')
+    def us_classifications
+      @html.xpath(XPATHS[:us_classifications]).text
+           .scrub_html
+           .split('; ')
     end
 
-    def self.extract_cpc_classifications(html)
-      html.xpath(XPATHS[:cpc_classifications]).text
-          .scrub_html
-          .split('; ')
-          .collect { |c| c.gsub('&nbsp', ' ') }
+    def cpc_classifications
+      @html.xpath(XPATHS[:cpc_classifications]).text
+           .scrub_html
+           .split('; ')
+           .collect { |c| c.gsub('&nbsp', ' ') }
     end
 
-    def self.extract_international_classifications(html)
-      html.xpath(XPATHS[:international_classifications]).text
-          .scrub_html
-          .split('; ')
-          .collect { |c| c.gsub('&nbsp', ' ') }
+    def international_classifications
+      @html.xpath(XPATHS[:international_classifications]).text
+           .scrub_html
+           .split('; ')
+           .collect { |c| c.gsub('&nbsp', ' ') }
     end
 
-    def self.extract_field_of_search(html)
-      html.xpath(XPATHS[:field_of_search]).text
-          .gsub(/^\s*;/, '')
-          .scrub_html
-          .split(',')
+    def field_of_search
+      @html.xpath(XPATHS[:field_of_search]).text
+           .gsub(/^\s*;/, '')
+           .scrub_html
+           .split(',')
     end
 
-    def self.extract_assignee(html)
-      extracted = html.xpath(XPATHS[:assignee]).text
-                      .scrub_html
-                      .split(/\s\(/)
-                      .collect { |a| a.gsub(/\)$/, '') }
+    def assignee
+      extracted = @html.xpath(XPATHS[:assignee]).text
+                       .scrub_html
+                       .split(/\s\(/)
+                       .collect { |a| a.gsub(/\)$/, '') }
       {
         name: extracted[0],
         location: extracted[1]
       }
     end
 
-    def self.extract_inventors(html)
-      raw_inventors = html.xpath(XPATHS[:inventors]).inner_html
+    def inventors
+      raw_inventors = @html.xpath(XPATHS[:inventors]).inner_html
 
       # Hold on to your butts...
       raw_inventors.scrub_html
@@ -126,10 +129,9 @@ module Patft
                    end
     end
 
-    # TODO: clean this mess up using #send
-    def self.extract(key, html)
-      extraction_method = "extract_#{key}".to_sym
-      send(extraction_method, html) if respond_to?(extraction_method)
+    def self.parse(html)
+      parser = Parser.new(html)
+      parser.to_hash
     end
   end
 end
