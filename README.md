@@ -14,7 +14,9 @@ the specs) to see what is and is not implemented.
 require 'patft'
 
 local_html = File.read('patent.html')
-patents = Parser.parse(local_html) # => { number: '1234567', title: '...', ... }
+patents = Parser.new(local_html)
+
+patents.extract(:title) # => 'System and method for ...'
 ```
 
 Note that PATFT::Parser#parse requires a String representation of the HTML, how
