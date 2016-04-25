@@ -25,10 +25,10 @@ module Patft
       send(key) if private_methods(false).include?(key)
     end
 
-    def self.parse(html)
-      parser = Parser.new(html)
-      parser.to_hash
-    end
+    # def self.parse(html)
+    #   parser = Parser.new(html)
+    #   parser.to_hash
+    # end
 
     private
 
