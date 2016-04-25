@@ -16,6 +16,11 @@ describe Parser do
 
     let(:parser) { Parser.new(html) }
 
+    it 'returns nil if attribute is unknown' do
+      unknown = parser.extract(:initialize)
+      expect(unknown).to be_nil
+    end
+
     it 'extracts a patent number' do
       title = parser.extract(:title)
       expect(title).to eq(expected['title'])

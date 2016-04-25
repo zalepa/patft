@@ -1,99 +1,86 @@
 require_relative 'xpaths'
 require_relative 'string_extensions'
 
-# TODO: Documentation
+#:nodoc:
 module Patft
   include XPATHS
   String.include Patft::StringExtensions
 
-  # TODO: Documentation
+  # Class for parsing PATFT html files
   class Parser
     def initialize(html)
       @html = Nokogiri::HTML(html)
     end
 
-    def to_hash
-      hash = {}
-      %w(number title issue_date filing_date inventors abstract assignee
-         us_classifications international_classifications cpc_classifications
-         field_of_search serial family_id primary_examiner
-      ).each { |f| hash[f.to_sym] = send(f.to_sym) }
-      hash
-    end
-
     def extract(key)
-      send(key) if private_methods(false).include?(key)
+      method = "extract_#{key}".to_sym
+      send(method) if private_methods(false).include?(method)
     end
-
-    # def self.parse(html)
-    #   parser = Parser.new(html)
-    #   parser.to_hash
-    # end
 
     private
 
-    def number
+    def extract_number
       @html.xpath(xpath_number).text.delete(',')
     end
 
-    def title
+    def extract_title
       @html.xpath(xpath_title).text.scrub_html
     end
 
-    def issue_date
+    def extract_issue_date
       raw_date = @html.xpath(xpath_issue_date).text.scrub_html
       Date.parse(raw_date)
     end
 
-    def filing_date
+    def extract_filing_date
       raw_date = @html.xpath(xpath_filing_date).text.scrub_html
       Date.parse(raw_date)
     end
 
-    def abstract
+    def extract_abstract
       @html.xpath(xpath_abstract).text.scrub_html
     end
 
-    def family_id
+    def extract_family_id
       @html.xpath(xpath_family_id).text.scrub_html
     end
 
-    def serial
+    def extract_serial
       @html.xpath(xpath_serial).text.scrub_html
     end
 
-    def primary_examiner
+    def extract_primary_examiner
       @html.xpath(xpath_primary_examiner).text.scrub_html
     end
 
-    def us_classifications
+    def extract_us_classifications
       @html.xpath(xpath_us_classifications).text
            .scrub_html
            .split('; ')
     end
 
-    def cpc_classifications
+    def extract_cpc_classifications
       @html.xpath(xpath_cpc_classifications).text
            .scrub_html
            .split('; ')
            .collect { |c| c.gsub('&nbsp', ' ') }
     end
 
-    def international_classifications
+    def extract_international_classifications
       @html.xpath(xpath_international_classifications).text
            .scrub_html
            .split('; ')
            .collect { |c| c.gsub('&nbsp', ' ') }
     end
 
-    def field_of_search
+    def extract_field_of_search
       @html.xpath(xpath_field_of_search).text
            .gsub(/^\s*;/, '')
            .scrub_html
            .split(',')
     end
 
-    def assignee
+    def extract_assignee
       extracted = @html.xpath(xpath_assignee).text
                        .scrub_html
                        .split(/\s\(/)
@@ -104,7 +91,7 @@ module Patft
       }
     end
 
-    def inventors
+    def extract_inventors
       raw_inventors = @html.xpath(xpath_inventors).inner_html
 
       # Hold on to your butts...
